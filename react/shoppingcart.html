@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+        .shopping-container {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 400px;
+            animation: fadeIn 1s;
+            box-sizing: border-box;
+        }
+        .shopping-container h1, .shopping-container h2, .shopping-container h3 {
+            color: #333;
+            margin-top: 0;
+        }
+        .shopping-container h1 {
+            color: #28a745;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .shopping-container .cart-summary {
+            background-color: #e0f7fa;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .shopping-container button {
+            padding: 10px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .shopping-container button:hover {
+            background-color: #218838;
+            transform: scale(1.05);
+        }
+        .shopping-container .item {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+            animation: fadeIn 1s;
+        }
+        .shopping-container .item h3 {
+            margin: 0;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+
+<body>
+    <br><br><br><br><br>
+    <div class="shopping-container">
+        <h1>Shopping Cart</h1>
+        <div id="a1"></div>
+    </div>
+
+    <script type="text/babel">
+        // Shop Component
+        function Shop({ initialCount = 0, price = 0, update }) {
+            const [count, setCount] = React.useState(initialCount);
+            const [itemTotal, setItemTotal] = React.useState(0);
+
+            // Increment function
+            function incre() {
+                const newCount = count + 1;
+                setCount(newCount);
+                const newItemTotal = newCount * price;
+                setItemTotal(newItemTotal);
+                update(1, price); // Add 1 item to the cart and update the total price
+            }
+
+            // Decrement function
+            function decre() {
+                if (count > 0) {
+                    const newCount = count - 1;
+                    setCount(newCount);
+                    const newItemTotal = newCount * price;
+                    setItemTotal(newItemTotal);
+                    update(-1, -price); // Remove 1 item from the cart and update the total price
+                }
+            }
+
+            return (
+                <div className="item">
+                    <button onClick={incre}>+</button>
+                    <button onClick={decre} disabled={count === 0}>-</button>
+                    <h3>Quantity: {count}</h3>
+                    <h3>Item Total: ${itemTotal.toFixed(2)}</h3>
+                </div>
+            );
+        }
+
+        // Total Component
+        function Total() {
+            const [cartItems, setCartItems] = React.useState(0);
+            const [cartTotal, setCartTotal] = React.useState(0);
+
+            // Update cart summary function
+            const update = (itemCountChange, priceChange) => {
+                setCartItems(cartItems + itemCountChange);
+                setCartTotal(cartTotal + priceChange);
+            };
+
+            return (
+                <div>
+                    <div className="cart-summary">
+                        <h2>Cart Summary</h2>
+                        <h3>Total Items: {cartItems}</h3>
+                        <h3>Total Price: ${cartTotal.toFixed(2)}</h3>
+                    </div>
+
+                    {/* Render Shop components */}
+                    <h2>Item 1:</h2>
+                    <Shop initialCount={0} price={11} update={update} />
+                    <h2>Item 2:</h2>
+                    <Shop initialCount={0} price={12} update={update} />
+                    <h2>Item 3:</h2>
+                    <Shop initialCount={0} price={13} update={update} />
+                    <h2>Item 4:</h2>
+                    <Shop initialCount={0} price={14} update={update} />
+                </div>
+            );
+        }
+
+        // Render the Total component to the DOM
+        ReactDOM.render(<Total />, document.querySelector("#a1"));
+    </script>
+</body>
+
+</html>

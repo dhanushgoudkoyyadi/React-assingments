@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .todo-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 400px;
+        }
+        .todo-container h1 {
+            color: #ff6600;
+            text-align: center;
+        }
+        .todo-container input {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .todo-container button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ff6600;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .todo-container button:hover {
+            background-color: #e65c00;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            background-color: #ffe6cc;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+        li.done {
+            background-color: green;
+            color: white;
+        }
+        li.undo {
+            background-color: red;
+            color: white;
+        }
+        .todo-buttons button {
+            margin-left: 5px;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .todo-buttons .done-button {
+            background-color: #28a745;
+            color: white;
+        }
+        .todo-buttons .done-button:hover {
+            background-color: #218838;
+        }
+        .todo-buttons .undo-button {
+            background-color: #dc3545;
+            color: white;
+        }
+        .todo-buttons .undo-button:hover {
+            background-color: #c82333;
+        }
+        .todo-buttons .delete-button {
+            background-color: #ffc107;
+            color: white;
+        }
+        .todo-buttons .delete-button:hover {
+            background-color: #e0a800;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="todo-container">
+        <h1>Todo App</h1>
+        <div id="a1"></div>
+    </div>
+
+    <script type="text/babel">
+        function Todoapp() {
+            const [todo, setTodo] = React.useState(['coding', 'shopping', 'bathing']);
+            const [value, setValue] = React.useState('');
+            const [color, setColor] = React.useState(Array(todo.length).fill(''));
+
+            const addTodo = () => {
+                let a = document.querySelector("#a2").value;
+                setTodo([...todo, a]);
+                setColor([...color, '']); // Update color array to include new item
+                setValue('');
+            }
+
+            const del = (ind) => {
+                let update = [...todo];
+                update.splice(ind, 1);
+                setTodo(update);
+                let updatec = [...color];
+                updatec.splice(ind, 1); // Update color array to remove color for deleted item
+                setColor(updatec);
+            }
+
+            const done = (ind) => {
+                let updatec = [...color];
+                updatec[ind] = 'green';
+                setColor(updatec);
+            }
+
+            const undo = (ind) => {
+                let up = [...color];
+                up[ind] = 'red';
+                setColor(up);
+            }
+
+            return (
+                <div>
+                    <input type="text" id="a2" value={value} onChange={(e) => setValue(e.target.value)} placeholder="Add a new task" />
+                    <button onClick={addTodo}>Add Task</button>
+                    <ul>
+                        {todo.map((item, ind) => (
+                            <li key={ind} className={color[ind] === 'green' ? 'done' : color[ind] === 'red' ? 'undo' : ''}>
+                                {item}
+                                <div className="todo-buttons">
+                                    <button className="done-button" onClick={() => done(ind)}>Done</button>
+                                    <button className="undo-button" onClick={() => undo(ind)}>Undo</button>
+                                    <button className="delete-button" onClick={() => del(ind)}>Delete</button>
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )
+        }
+
+        ReactDOM.render(<Todoapp />, document.querySelector("#a1"));
+    </script>
+</body>
+
+</html>

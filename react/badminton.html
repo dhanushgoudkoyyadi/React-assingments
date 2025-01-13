@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BADMINTON SCORECARD</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+
+<body>
+    <div class="a1"></div>
+
+    <script type="text/babel">
+        let player1 = {
+            name: 'dhanush',
+            score: 0,
+            sets: 0,
+            service: false
+        }
+
+        let player2 = {
+            name: 'thanush',
+            score: 0,
+            sets: 0,
+            service: true
+        }
+
+        function play1() {
+            player1.score += 1;
+            player2.service = false;
+            player1.service = true;
+            if (player1.score == 21 && player2.score < 20) {
+                player1.sets += 1;
+                player1.score = 0;
+                player2.score = 0;
+            }
+            if (player1.score > 21 && player1.score - player2.score == 2) {
+                player1.sets += 1;
+                player1.score = 0;
+                player2.score = 0;
+            }
+            ui()
+        }
+
+        function play2() {
+            player2.score += 1;
+            player1.service = false;
+            player2.service = true;
+            if (player2.score == 21 && player1.score < 20) {
+                player2.sets += 1;
+                player1.score = 0;
+                player2.score = 0;
+            }
+            if (player1.score > 21 && player1.score - player2.score == 2) {
+                player1.sets += 1;
+                player2.score = 0;
+                player1.score = 0;
+            }
+            ui()
+        }
+        function ui() {
+            var ui = <table>
+
+                <tr>
+                    <td>{player1.name}
+                        {player1.service && <button>s</button>}</td>
+                    <td>{player1.score}</td>
+                    <td>{player1.sets}</td>
+                    <td><button onClick={play1}>add point</button></td>
+
+                </tr>
+
+                <tr>
+                    <td>{player2.name}
+                        {player2.service && <button>s</button>}</td>
+                    <td>{player2.score}</td>
+                    <td>{player2.sets}</td>
+                    <td><button onClick={play2}>add point</button></td>
+
+                </tr>
+
+
+            </table>
+            ReactDOM.render(ui, document.querySelector(".a1"))
+        }
+
+        ui();
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>

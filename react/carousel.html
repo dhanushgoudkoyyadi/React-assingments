@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATM Application</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="heroine.js"></script>
+</head>
+
+<body>
+    <div class="a1"></div>
+
+    <script type="text/babel">
+         
+         function App() {
+
+            let [img,setimg]=React.useState(0);
+
+            function prev(){
+              if(img==0){
+                setimg(heroine.length-1)
+              }
+              else{
+                setimg(img-1)
+              }
+            }
+
+            function next(){
+                if(img==heroine.length-1){
+                    setimg(0)
+                }
+                else{
+                    setimg(img+1);
+                }
+            }
+
+
+            return(
+                <div>
+                
+                    <img src={heroine[img].image} alt={heroine[img].fullname}/>
+                    <button onClick={()=>{prev()}}>prev</button>
+                    <button onClick={()=>{next()}}>next</button>
+
+                </div>
+            )
+
+
+         }
+
+         ReactDOM.render(<App/>,document.querySelector(".a1"))
+
+
+
+    </script>  
+</body>
+
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATM Application</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="heroine.js"></script>
+</head>
+
+
+<body>
+    <div class="a1"></div>
+
+    <script type="text/babel">
+function sortby(k){
+    heroine.sort(function(a,b){
+        if(a[k]>b[k]){
+            return 1
+        }
+        else{
+            return -1
+        }
+    })
+    hero()
+}
+ 
+function hero(){
+        let x=<table border='2'>
+            <thead>
+                <tr>
+                <th>fullname</th>
+                <th onClick={()=>{sortby('age')}}>age</th>
+                <th>discription</th>
+                <th>image</th>
+                </tr>
+            </thead>
+            {
+                heroine.map((i)=>{
+                    return <tr>
+                        <td>{i.fullname}</td>
+                        <td>{i.age}</td>
+                        <td>{i.description}</td>
+                        <td><img src={i.image} alt=""/></td>
+                          </tr>
+                })
+            }
+            </table>
+
+ReactDOM.render(x,document.querySelector(".a1"))}
+hero()
+    </script>
+</body>
+
+</html>
